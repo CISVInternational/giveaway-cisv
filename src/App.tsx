@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
-import DataImport from './pages/data-import/dataImport';
+import DataImport from './containers/DataImport/DataImport';
 import './App.css';
 
 function App() {

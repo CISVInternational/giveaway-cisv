@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import DataImport from './dataImport';
+import DataImport from './DataImport';
 
 test('renders learn react link', () => {
   render(<DataImport />);
