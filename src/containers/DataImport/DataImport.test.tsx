@@ -2,8 +2,17 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import DataImport from './DataImport';
 
-test('renders learn react link', () => {
-  render(<DataImport />);
-  const linkElement = screen.getByText(/hola/i);
-  expect(linkElement).toBeInTheDocument();
+describe('test DataImport', () => {
+  beforeAll(() => {
+		render(<DataImport />);
+  });
+  it('renders buttons', ()=>{
+    const importParticipants = screen.getByText(/Importar participantes/i);
+    const importPrograms = screen.getByText(/Importar programas/i)
+    expect(importParticipants).toBeInTheDocument();
+    expect(importPrograms).toBeInTheDocument();
+  })
+
+  
+  
 });
