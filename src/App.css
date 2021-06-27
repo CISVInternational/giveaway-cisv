@@ -1,38 +1,78 @@
-.App {
-  text-align: center;
+.body-container {
+  padding: 40px 20px;
+  background-color: var(--background-secondary-color);
+  height: 100vh;
+}
+.sticky-top {
+  /* Stick to the top */
+  position: sticky;
+  top: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.row {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+
+  margin-left: -8px;
+  margin-right: -8px;
 }
 
-.App-link {
-  color: #61dafb;
+.row__cell {
+  padding-left: 8px;
+  padding-right: 8px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.row__cell--fill {
+  flex: 1;
+}
+
+.row__cell--12 {
+  flex: 0 0 100%;
+}
+
+.row__cell--11 {
+  flex: 0 0 91.6666667%;
+}
+
+.row__cell--10 {
+  flex: 0 0 83.33%;
+}
+
+.row__cell--9 {
+  flex: 0 0 75%;
+}
+
+.row__cell--9 {
+  flex: 0 0 75%;
+}
+
+.row__cell--8 {
+  flex: 0 0 66.666667%;
+}
+
+.row__cell--7 {
+  flex: 0 0 58.33333%;
+}
+
+.row__cell--6 {
+  flex: 0 0 50%;
+}
+
+.row__cell--5 {
+  flex: 0 0 41.666667%;
+}
+
+.row__cell--4 {
+  flex: 0 0 33.33333%;
+}
+
+.row__cell--3 {
+  flex: 0 0 25%;
+}
+
+.row__cell--2 {
+  flex: 0 0 16.666667%;
+}
+
+.row__cell--1 {
+  flex: 0 0 8.3333333%;
 }

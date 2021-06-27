@@ -1,28 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import DataImport from './containers/DataImport/DataImport';
-import './App.css';
+import React from "react"
+
+import DataImport from "./containers/DataImport/DataImport"
+import "./App.css"
+import NavBar from "./components/NavBar/NavBar"
+import Header from "./components/Header/Header"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <DataImport />
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+      <div>
+        <div className="sticky-top">
+          <Header />
+          <NavBar />
+        </div>
+
+        {/* A <Switch> looks through its children <Route>s and
+          renders the first one that matches the current URL. */}
+        <div className="body-container">
+          <Switch>
+            <Route path="/import">
+              <DataImport />
+            </Route>
+          </Switch>
+        </div>
+      </div>
+    </Router>
+  )
 }
 
-export default App;
+export default App
