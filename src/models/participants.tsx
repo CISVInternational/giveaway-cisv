@@ -1,3 +1,4 @@
 export interface Participant {
-  [key: string]: string
+  [key: string]: string | number
+  random: number
 }

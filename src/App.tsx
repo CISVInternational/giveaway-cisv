@@ -1,6 +1,7 @@
 import React from "react"
 
 import DataImport from "./containers/DataImport/DataImport"
+import Giveaway from "./containers/Giveaway/Giveaway"
 import "./App.css"
 import NavBar from "./components/NavBar/NavBar"
 import Header from "./components/Header/Header"
@@ -21,6 +22,9 @@ function App() {
           <Switch>
             <Route path="/import">
               <DataImport />
+            </Route>
+            <Route path="/giveaway">
+              <Giveaway />
             </Route>
           </Switch>
         </div>

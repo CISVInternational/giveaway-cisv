@@ -9,10 +9,7 @@ const NavBar = () => {
           <Link to="/import">Import Data</Link>
         </li>
         <li>
-          <Link to="/about">About</Link>
-        </li>
-        <li>
-          <Link to="/users">Users</Link>
+          <Link to="/giveaway">Sorteo</Link>
         </li>
       </ul>
     </nav>
