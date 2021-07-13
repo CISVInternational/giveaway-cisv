@@ -4,6 +4,7 @@ import "react-tabs/style/react-tabs.css"
 import { Destiny } from "../../../models/destinies"
 import { getParticipants } from "../../../redux/selectors/general.selector"
 import { Participant } from "../../../models/participants"
+import Randomizer from "../../../components/Randomizer/Randomizer"
 
 const getParticipantsProgram = (
   participants: Participant[],
@@ -57,6 +58,7 @@ const ProgramTab = (props: any) => {
             <th colSpan={3}>Destinos</th>
           </tr>
           <tr>
+            <th>Número</th>
             <th>Destino</th>
             <th>Chicos</th>
             <th>Chicas</th>
@@ -66,6 +68,7 @@ const ProgramTab = (props: any) => {
             destinies.map((destiny: Destiny, index: number) => {
               return (
                 <tr key={index}>
+                  <td>{index + 1}</td>
                   <td>{destiny["lugar de destino"]}</td>
                   <td>{destiny["participantes (m)"]}</td>
                   <td>{destiny["participantes (f)"]}</td>
@@ -98,6 +101,9 @@ const ProgramTab = (props: any) => {
       <div className="row__cell--12">
         <button onClick={startGiveaway}>Comenzar sorteo</button>
       </div>
+      <Randomizer
+        numbers={[1, 2, 3, 4, 5, 6, 7, 8]}
+      />
     </div>
   )
 }
