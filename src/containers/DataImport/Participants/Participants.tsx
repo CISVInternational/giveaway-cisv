@@ -12,7 +12,11 @@ const Participants = () => {
   const dispatch = useDispatch()
   const participants = useSelector(getParticipants)
   const loadParticipants = (data: any, fileInfo: any) => {
-    const result = parseCSV(data)
+    let result = parseCSV(data)
+    result = result.map((element: any) => {
+      element.random = 0
+      return element
+    })
     console.log("result", result)
     dispatch(putParticipants(result))
   }
