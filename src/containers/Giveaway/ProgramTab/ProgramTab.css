@@ -1,0 +1,8 @@
+.btn__start-giveaway {
+  background-color: var(--background-primary-color);
+  border-color: var(--background-secondary-color);
+  color: var(--background-third-color);
+  border-radius: 4px;
+  padding: 20px;
+  border-width: 1px;
+}

@@ -163,6 +163,11 @@ const ProgramTab = (props: any) => {
 
   return (
     <div className="row">
+      <div className="row__cell--12 center">
+        <button className="btn__start-giveaway" onClick={startGiveaway}>
+          Comenzar sorteo
+        </button>
+      </div>
       <div className="row__cell--6">
         <table>
           <tr>
@@ -216,6 +221,7 @@ const ProgramTab = (props: any) => {
           <tr>
             <th>Número</th>
             <th>Nombre</th>
+            <th>Fecha nacimiento</th>
             <th>Sexo</th>
           </tr>
           {participantsProgram.map((participant: Participant, index: number) => {
@@ -223,14 +229,12 @@ const ProgramTab = (props: any) => {
               <tr key={index}>
                 <td>{participant["random"] > 0 ? participant["random"] : ""}</td>
                 <td>{participant["nombre y apellidos"]}</td>
+                <td>{participant["fecha nacimiento"]}</td>
                 <td>{participant["sexo"]}</td>
               </tr>
             )
           })}
         </table>
-      </div>
-      <div className="row__cell--12">
-        <button onClick={startGiveaway}>Comenzar sorteo</button>
       </div>
     </div>
   )
