@@ -2,6 +2,7 @@
   "name": "giveaway-cisv",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://CISVInternational.github.io/giveaway-cisv",
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.0",
     "@testing-library/jest-dom": "^5.12.0",
@@ -24,7 +25,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -49,6 +52,7 @@
     "@types/react-redux": "^7.1.16",
     "eslint": "^7.28.0",
     "eslint-plugin-jest-dom": "^3.9.0",
+    "gh-pages": "^3.2.3",
     "jest-runner-eslint": "^0.10.0"
   }
 }
