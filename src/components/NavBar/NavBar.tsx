@@ -11,6 +11,9 @@ const NavBar = () => {
         <li>
           <Link to="/giveaway">Sorteo</Link>
         </li>
+        <li>
+          <Link to="/export">Exportar resultados</Link>
+        </li>
       </ul>
     </nav>
   )

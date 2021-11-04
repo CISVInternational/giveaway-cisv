@@ -1,6 +1,8 @@
 import React from "react"
 
 import DataImport from "./containers/DataImport/DataImport"
+import DataExport from "./containers/DataExport/DataExport"
+
 import Giveaway from "./containers/Giveaway/Giveaway"
 import "./App.css"
 import NavBar from "./components/NavBar/NavBar"
@@ -25,6 +27,9 @@ function App() {
             </Route>
             <Route path="/giveaway">
               <Giveaway />
+            </Route>
+            <Route path="/export">
+              <DataExport />
             </Route>
           </Switch>
         </div>
