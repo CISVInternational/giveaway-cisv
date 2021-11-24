@@ -21,9 +21,14 @@ const Participants = () => {
     dispatch(putParticipants(result))
   }
 
+  const clearParticipants = () => {
+    dispatch(putParticipants([]))
+  }
+
   return (
     <div>
       <CSVReader label="Importar participantes" onFileLoaded={loadParticipants} />
+      <button onClick={clearParticipants}>Borrar participantes</button>
       {printTable(participants)}
     </div>
   )

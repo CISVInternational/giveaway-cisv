@@ -38,10 +38,15 @@ const Destinies = () => {
     console.log("programs after parse", programs)
   }
 
+  const clearDestinies = () => {
+    dispatch(putDestinies([]))
+  }
+
   return (
     <div>
       <button onClick={clickHere}>eoooo</button>
       <CSVReader label="Importar destinos" onFileLoaded={loadDestinies} />
+      <button onClick={clearDestinies}>Borrar destinos</button>
       {printTable(destinies)}
     </div>
   )
