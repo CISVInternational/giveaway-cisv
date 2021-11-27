@@ -1,0 +1,17 @@
+.navbar > ul {
+  display: flex;
+  list-style: none;
+  justify-content: flex-start;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-primary-color);
+}
+
+.navbar > ul > li {
+  padding: 20px;
+  font-weight: bold;
+}
+.navbar > ul > li > a {
+  text-decoration: none;
+  color: #fff;
+}
