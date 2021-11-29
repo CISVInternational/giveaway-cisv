@@ -5,10 +5,11 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs"
 import "react-tabs/style/react-tabs.css"
 import { getPrograms } from "../../redux/selectors/general.selector"
 import { Destiny } from "../../models/destinies"
+import { Programs } from "../../models/programs"
 import ProgramTab from "./ProgramTab/ProgramTab"
 
 const Giveaway = () => {
-  const programs = useSelector(getPrograms)
+  const programs: Programs[] = useSelector(getPrograms)
 
   return (
     <div className="giveaway">
@@ -20,9 +21,9 @@ const Giveaway = () => {
             })}
         </TabList>
         {programs &&
-          Object.entries(programs).map(([index, destinies]) => {
+          Object.entries(programs).map(([index, { destinies, participants }]) => {
             return (
-              <TabPanel>
+              <TabPanel key={index}>
                 <ProgramTab destinies={destinies} programName={index} />
               </TabPanel>
             )

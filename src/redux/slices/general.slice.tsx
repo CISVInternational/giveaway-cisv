@@ -1,6 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit"
-
-const initialState = { participants: [], destinies: [], programs: [] }
+import { Participant } from "../../models/participants"
+import { Destiny } from "../../models/destinies"
+import { Programs } from "../../models/programs"
+interface InitialState {
+  participants: Participant[]
+  destinies: Destiny[]
+  programs: Programs[]
+}
+const initialState: InitialState = { participants: [], destinies: [], programs: [] }
 
 const slice = createSlice({
   name: "general",
@@ -14,6 +21,11 @@ const slice = createSlice({
     },
     putPrograms(state, action) {
       state.programs = action.payload
+    },
+    putParticipantsProgram(state, action) {
+      console.log("action", action.payload)
+      state.programs[action.payload.program].participants =
+        action.payload.participants
     },
   },
 })
