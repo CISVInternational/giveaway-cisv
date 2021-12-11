@@ -5,6 +5,7 @@ import { Destiny } from "../../../models/destinies"
 import {
   getDestinies,
   getParticipants,
+  getYear,
 } from "../../../redux/selectors/general.selector"
 import { parseCSV, printTable } from "../../../utils/csv"
 import { actions } from "../../../redux/slices/general.slice"
@@ -16,10 +17,11 @@ const { putDestinies, putPrograms } = actions
 const Destinies = () => {
   const dispatch = useDispatch()
   const destinies = useSelector(getDestinies)
-  const participants = useSelector(getParticipants)
+  const participants = useSelector(getYear)
+  const year = useSelector(getParticipants)
   const loadDestinies = (data: any, fileInfo: any) => {
     const destiniesCSV: Destiny[] = parseCSV(data)
-    const programsCSV: Programs = initPrograms(destiniesCSV, participants)
+    const programsCSV: Programs = initPrograms(destiniesCSV, participants, year)
 
     console.log("destiniesCSV", destiniesCSV)
     console.log("programsCSV", programsCSV)

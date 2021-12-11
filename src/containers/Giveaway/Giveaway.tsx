@@ -6,6 +6,7 @@ import {
   getPrograms,
   getParticipants,
   getDestinies,
+  getYear,
 } from "../../redux/selectors/general.selector"
 import { actions } from "../../redux/slices/general.slice"
 import { Destiny } from "../../models/destinies"
@@ -20,8 +21,9 @@ const Giveaway = () => {
   const programs: Programs = useSelector(getPrograms)
   const destinies: Destiny[] = useSelector(getDestinies)
   const participants: Participant[] = useSelector(getParticipants)
+  const year = useSelector(getYear)
   const resetPrograms = () => {
-    const programsReset = initPrograms(destinies, participants)
+    const programsReset = initPrograms(destinies, participants, year)
     dispatch(putPrograms(programsReset))
   }
 

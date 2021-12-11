@@ -7,7 +7,8 @@ export const shuffleArray = (arr: any[]): any[] =>
 
 export function getParticipantsProgram(
   participants: Participant[],
-  destinies: Destiny[]
+  destinies: Destiny[],
+  year: number
 ) {
   const ages: number[] = destinies.reduce(
     (accumulator: number[], destiny: Destiny) => {
@@ -19,15 +20,16 @@ export function getParticipantsProgram(
   )
 
   const participantsFiltered: Participant[] = participants.filter((participant) => {
-    const age = getAge(String(participant["fecha nacimiento"]))
+    const age = getAge(String(participant["fecha nacimiento"]), year)
     return ages.includes(age)
   })
 
   return participantsFiltered
 }
 
-export function getAge(dateString: string) {
-  var today = new Date()
+export function getAge(dateString: string, year: number) {
+  var today = new Date();
+  today.setFullYear(year);
   var birthDate = new Date(dateString)
   var age = today.getFullYear() - birthDate.getFullYear()
   var m = today.getMonth() - birthDate.getMonth()
@@ -45,7 +47,8 @@ export function getRounds(participantsProgram: Participant[]) {
 
 export const initPrograms = (
   destinies: Destiny[],
-  participants: Participant[]
+  participants: Participant[],
+  year: number
 ): Programs => {
   const programsCSV: Programs = destinies.reduce(
     (accumulator: Programs, destiny: Destiny) => {
@@ -66,7 +69,7 @@ export const initPrograms = (
   if (participants.length) {
     Object.values(programsCSV).forEach((program) => {
       program.destinies = shuffleArray(program.destinies)
-      program.participants = getParticipantsProgram(participants, program.destinies)
+      program.participants = getParticipantsProgram(participants, program.destinies, year)
 
       program.rounds = getRounds(program.participants)
     })
