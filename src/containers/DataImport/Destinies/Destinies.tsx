@@ -14,14 +14,13 @@ const Destinies = () => {
   const destinies = useSelector(getDestinies)
   const programs = useSelector(getPrograms)
   const loadDestinies = (data: any, fileInfo: any) => {
-    console.log("destinies", data)
     const destiniesCSV: Destiny[] = parseCSV(data)
     const programsCSV: Programs = destiniesCSV.reduce(
       (accumulator: Programs, destiny: Destiny) => {
         if (!accumulator[destiny.programa]) {
-          accumulator[destiny.programa] = [destiny]
+          accumulator[destiny.programa] = { destinies: [destiny], participants: [] }
         } else {
-          accumulator[destiny.programa].push(destiny)
+          accumulator[destiny.programa].destinies.push(destiny)
         }
         return accumulator
       },
