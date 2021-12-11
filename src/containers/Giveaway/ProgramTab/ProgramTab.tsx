@@ -8,56 +8,18 @@ import { getPrograms } from "../../../redux/selectors/general.selector"
 import { Participant } from "../../../models/participants"
 import { actions } from "../../../redux/slices/general.slice"
 import * as _ from "lodash"
-import { Programs } from "../../../models/programs"
+import { Programs, Winners } from "../../../models/programs"
+import { shuffleArray } from "../../../utils/utils"
 const { putParticipantsProgram, putWinnersProgram } = actions
-
-function getParticipantsProgram(
-  participants: Participant[],
-  destinies: Destiny[],
-  participantsRedux: Participant[]
-) {
-  if (participantsRedux.length) {
-    return participantsRedux
-  }
-
-  const ages: number[] = destinies.reduce(
-    (accumulator: number[], destiny: Destiny) => {
-      const edades: number[] = destiny.edad.split(",").map((edad) => Number(edad))
-
-      return [...accumulator, ...edades]
-    },
-    []
-  )
-
-  const participantsFiltered: Participant[] = participants.filter((participant) => {
-    const age = getAge(String(participant["fecha nacimiento"]))
-    return ages.includes(age)
-  })
-
-  return participantsFiltered
-}
-
-function getAge(dateString: string) {
-  var today = new Date()
-  var birthDate = new Date(dateString)
-  var age = today.getFullYear() - birthDate.getFullYear()
-  var m = today.getMonth() - birthDate.getMonth()
-  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-    age--
-  }
-  return age
-}
 
 const ProgramTab = (props: any) => {
   const dispatch = useDispatch()
   const { destinies, programName } = props
   const programs = useSelector(getPrograms)
   const participants = useSelector(getParticipants)
-  const participantsProgram: Participant[] = getParticipantsProgram(
-    participants,
-    destinies,
-    programs[programName].participants
-  )
+
+  const rounds: number[] = programs[programName].rounds
+  const participantsProgram: Participant[] = programs[programName].participants
 
   const [numbersParticipants, setNumbersParticipants] = useState<number[]>([])
   const winnersDestinies = programs[programName].winners
@@ -104,60 +66,95 @@ const ProgramTab = (props: any) => {
     return currentNumber
   }
 
+  const getNumbersForThisRound = (
+    numbers: number[],
+    round: string | number
+  ): number[] => {
+    const numbersRound = numbers.filter((number) => {
+      const child = participantsProgram.find(
+        (participant: Participant) => participant.random === number
+      )
+      return child ? child["ronda"] === round : false
+    })
+
+    return numbersRound
+  }
+
   const assingParticipantsToDestinies = () => {
     const assignedParticipants: number[] = []
 
     const { numbersGirls, numbersBoys } = assignNumberToParticipants()
 
-    const participantsToDestinies = destinies.reduce(
-      (accumulator: any, destiny: Destiny, index: number) => {
-        const shuffledBoys = shuffleArray(numbersBoys)
-        const shuffledGirls = shuffleArray(numbersGirls)
-
-        const destinyBoys = [...new Array(Number(destiny["participantes (m)"]))].map(
-          (position: any, index: number) => {
-            if (assignedParticipants.length < participantsProgram.length) {
-              const numberParticipant: number | undefined = getNumberParticipant(
-                shuffledBoys,
-                assignedParticipants
-              )
-              if (numberParticipant) {
-                assignedParticipants.push(numberParticipant)
-              }
-
-              return numberParticipant
-            }
-            return undefined
+    const winners = rounds.reduce(
+      (accumulator: any, round: number | string): Winners => {
+        destinies.forEach((destiny: Destiny, index: number) => {
+          if (!accumulator[destiny["lugar de destino"]]) {
+            accumulator[destiny["lugar de destino"]] = []
           }
-        )
-
-        const destinyGirls = [
-          ...new Array(Number(destiny["participantes (f)"])),
-        ].map((position: any, index: number) => {
-          if (assignedParticipants.length < participantsProgram.length) {
-            const numberParticipant: number | undefined = getNumberParticipant(
-              shuffledGirls,
-              assignedParticipants
+          if (
+            accumulator[destiny["lugar de destino"]].length <
+            Number(destiny["participantes (m)"]) +
+              Number(destiny["participantes (f)"])
+          ) {
+            const shuffledBoys = shuffleArray(
+              getNumbersForThisRound(numbersBoys, round)
             )
-            if (numberParticipant) {
-              assignedParticipants.push(numberParticipant)
-            }
+            const shuffledGirls = shuffleArray(
+              getNumbersForThisRound(numbersGirls, round)
+            )
 
-            return numberParticipant
+            const destinyBoys = [
+              ...new Array(Number(destiny["participantes (m)"])),
+            ].map((position: any, index: number) => {
+              if (assignedParticipants.length < participantsProgram.length) {
+                const numberParticipant: number | undefined = getNumberParticipant(
+                  shuffledBoys,
+                  assignedParticipants
+                )
+                if (numberParticipant) {
+                  assignedParticipants.push(numberParticipant)
+                }
+
+                return numberParticipant
+              }
+              return undefined
+            })
+
+            const destinyGirls = [
+              ...new Array(Number(destiny["participantes (f)"])),
+            ].map((position: any, index: number) => {
+              if (assignedParticipants.length < participantsProgram.length) {
+                const numberParticipant: number | undefined = getNumberParticipant(
+                  shuffledGirls,
+                  assignedParticipants
+                )
+                if (numberParticipant) {
+                  assignedParticipants.push(numberParticipant)
+                }
+
+                return numberParticipant
+              }
+              return undefined
+            })
+
+            accumulator[destiny["lugar de destino"]] = [
+              ...accumulator[destiny["lugar de destino"]],
+              ...destinyBoys.filter((number) => !!number),
+              ...destinyGirls.filter((number) => !!number),
+            ]
           }
-          return undefined
         })
-
-        accumulator[index] = [...destinyBoys, ...destinyGirls]
         return accumulator
       },
-      []
+      {}
     )
+
+    console.log("winners", winners)
 
     dispatch(
       putWinnersProgram({
         program: programName,
-        winners: participantsToDestinies,
+        winners,
       })
     )
   }
@@ -177,8 +174,6 @@ const ProgramTab = (props: any) => {
     return shuffledArray[index]
   }
 
-  const shuffleArray = (arr: any[]): any[] => arr.sort(() => Math.random() - 0.5)
-
   const startGiveaway = () => {
     assingParticipantsToDestinies()
   }
@@ -186,6 +181,7 @@ const ProgramTab = (props: any) => {
   return (
     <div className="row">
       <div className="row__cell--12 center">
+        <div className="rounds">Hay {rounds.length} rondas</div>
         <button className="btn__start-giveaway" onClick={startGiveaway}>
           Comenzar sorteo
         </button>
@@ -215,8 +211,8 @@ const ProgramTab = (props: any) => {
                     <td>
                       <ul>
                         {winnersDestinies &&
-                          winnersDestinies[index] &&
-                          winnersDestinies[index].map(
+                          winnersDestinies[destiny["lugar de destino"]] &&
+                          winnersDestinies[destiny["lugar de destino"]].map(
                             (winner: number, indexDestiny: number) => {
                               const winnerParticipant = participantsProgram.find(
                                 (p) => p.random === winner
@@ -246,6 +242,7 @@ const ProgramTab = (props: any) => {
             </tr>
             <tr>
               <th>Número</th>
+              <th>Ronda</th>
               <th>Nombre</th>
               <th>Fecha nacimiento</th>
               <th>Sexo</th>
@@ -256,6 +253,7 @@ const ProgramTab = (props: any) => {
               return (
                 <tr key={index}>
                   <td>{participant["random"] > 0 ? participant["random"] : ""}</td>
+                  <td>{participant["ronda"]}</td>
                   <td>{participant["nombre y apellidos"]}</td>
                   <td>{participant["fecha nacimiento"]}</td>
                   <td>{participant["sexo"]}</td>
