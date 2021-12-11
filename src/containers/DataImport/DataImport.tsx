@@ -3,11 +3,13 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs"
 import "react-tabs/style/react-tabs.css"
 import Participants from "./Participants/Participants"
 import Destinies from "./Destinies/Destinies"
-import { getParticipants } from "../../redux/selectors/general.selector"
+import { getDestinies, getParticipants } from "../../redux/selectors/general.selector"
 import { useSelector } from "react-redux"
+import Year from "./Year/Year"
 
 const DataImport = () => {
   const participants = useSelector(getParticipants)
+  const destines = useSelector(getDestinies)
   return (
     <div className="data-import">
       <Tabs>
@@ -22,12 +24,22 @@ const DataImport = () => {
           ) : (
             ""
           )}
+          {(destines.length && participants.length) ? (
+            <Tab>
+              <b>Paso 3:</b> Año
+            </Tab>
+          ) : (
+            ""
+          )}
         </TabList>
         <TabPanel>
           <Participants />
         </TabPanel>
         <TabPanel>
           <Destinies />
+        </TabPanel>
+        <TabPanel>
+          <Year />
         </TabPanel>
       </Tabs>
     </div>

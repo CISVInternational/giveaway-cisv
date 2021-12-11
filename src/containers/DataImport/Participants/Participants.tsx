@@ -6,7 +6,7 @@ import { actions } from "../../../redux/slices/general.slice"
 import "react-tabs/style/react-tabs.css"
 import { parseCSV, printTable } from "../../../utils/csv"
 
-const { putParticipants } = actions
+const { putParticipants, putDestinies } = actions
 
 const Participants = () => {
   const dispatch = useDispatch()
@@ -22,6 +22,7 @@ const Participants = () => {
 
   const clearParticipants = () => {
     dispatch(putParticipants([]))
+    dispatch(putDestinies([]))
   }
 
   return (

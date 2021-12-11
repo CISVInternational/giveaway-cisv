@@ -6,8 +6,9 @@ interface InitialState {
   participants: Participant[]
   destinies: Destiny[]
   programs: Programs[]
+  year: number
 }
-const initialState: InitialState = { participants: [], destinies: [], programs: [] }
+const initialState: InitialState = { participants: [], destinies: [], programs: [], year: 2022 }
 
 const slice = createSlice({
   name: "general",
@@ -28,6 +29,9 @@ const slice = createSlice({
     },
     putWinnersProgram(state, action) {
       state.programs[action.payload.program].winners = action.payload.winners
+    },
+    putYear(state, action) {
+      state.year = action.payload
     },
   },
 })
