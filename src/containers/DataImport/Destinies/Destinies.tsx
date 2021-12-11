@@ -2,39 +2,29 @@ import "../DataImport.css"
 import CSVReader from "react-csv-reader"
 import "react-tabs/style/react-tabs.css"
 import { Destiny } from "../../../models/destinies"
-import { getDestinies, getPrograms } from "../../../redux/selectors/general.selector"
+import {
+  getDestinies,
+  getParticipants,
+} from "../../../redux/selectors/general.selector"
 import { parseCSV, printTable } from "../../../utils/csv"
 import { actions } from "../../../redux/slices/general.slice"
 import { useDispatch, useSelector } from "react-redux"
 import { Programs } from "../../../models/programs"
+import { initPrograms } from "../../../utils/utils"
 const { putDestinies, putPrograms } = actions
 
 const Destinies = () => {
   const dispatch = useDispatch()
   const destinies = useSelector(getDestinies)
-  const programs = useSelector(getPrograms)
+  const participants = useSelector(getParticipants)
   const loadDestinies = (data: any, fileInfo: any) => {
     const destiniesCSV: Destiny[] = parseCSV(data)
-    const programsCSV: Programs = destiniesCSV.reduce(
-      (accumulator: Programs, destiny: Destiny) => {
-        if (!accumulator[destiny.programa]) {
-          accumulator[destiny.programa] = { destinies: [destiny], participants: [] }
-        } else {
-          accumulator[destiny.programa].destinies.push(destiny)
-        }
-        return accumulator
-      },
-      {}
-    )
+    const programsCSV: Programs = initPrograms(destiniesCSV, participants)
+
     console.log("destiniesCSV", destiniesCSV)
     console.log("programsCSV", programsCSV)
     dispatch(putDestinies(destiniesCSV))
     dispatch(putPrograms(programsCSV))
-  }
-
-  const clickHere = () => {
-    console.log("destinies after parse", destinies)
-    console.log("programs after parse", programs)
   }
 
   const clearDestinies = () => {
@@ -43,10 +33,9 @@ const Destinies = () => {
 
   return (
     <div>
-      <button onClick={clickHere}>eoooo</button>
       <CSVReader label="Importar destinos" onFileLoaded={loadDestinies} />
       <button onClick={clearDestinies}>Borrar destinos</button>
-      {printTable(destinies)}
+      {destinies.length ? printTable(destinies) : ""}
     </div>
   )
 }

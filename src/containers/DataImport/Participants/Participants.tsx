@@ -17,7 +17,6 @@ const Participants = () => {
       element.random = 0
       return element
     })
-    console.log("result", result)
     dispatch(putParticipants(result))
   }
 
@@ -29,7 +28,7 @@ const Participants = () => {
     <div>
       <CSVReader label="Importar participantes" onFileLoaded={loadParticipants} />
       <button onClick={clearParticipants}>Borrar participantes</button>
-      {printTable(participants)}
+      {participants.length ? printTable(participants) : ""}
     </div>
   )
 }
