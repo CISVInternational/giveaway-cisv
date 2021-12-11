@@ -1,23 +1,25 @@
 {
   "files": {
-    "main.css": "/giveaway-cisv/static/css/main.ac81421e.chunk.css",
-    "main.js": "/giveaway-cisv/static/js/main.34192839.chunk.js",
-    "main.js.map": "/giveaway-cisv/static/js/main.34192839.chunk.js.map",
-    "runtime-main.js": "/giveaway-cisv/static/js/runtime-main.3bd3e2bb.js",
-    "runtime-main.js.map": "/giveaway-cisv/static/js/runtime-main.3bd3e2bb.js.map",
-    "static/js/2.dedcbe63.chunk.js": "/giveaway-cisv/static/js/2.dedcbe63.chunk.js",
-    "static/js/2.dedcbe63.chunk.js.map": "/giveaway-cisv/static/js/2.dedcbe63.chunk.js.map",
-    "static/js/3.87be8f84.chunk.js": "/giveaway-cisv/static/js/3.87be8f84.chunk.js",
-    "static/js/3.87be8f84.chunk.js.map": "/giveaway-cisv/static/js/3.87be8f84.chunk.js.map",
+    "main.css": "/giveaway-cisv/static/css/main.6f9d8a76.chunk.css",
+    "main.js": "/giveaway-cisv/static/js/main.2b494f24.chunk.js",
+    "main.js.map": "/giveaway-cisv/static/js/main.2b494f24.chunk.js.map",
+    "runtime-main.js": "/giveaway-cisv/static/js/runtime-main.e9266763.js",
+    "runtime-main.js.map": "/giveaway-cisv/static/js/runtime-main.e9266763.js.map",
+    "static/css/2.27175f2b.chunk.css": "/giveaway-cisv/static/css/2.27175f2b.chunk.css",
+    "static/js/2.e108c85b.chunk.js": "/giveaway-cisv/static/js/2.e108c85b.chunk.js",
+    "static/js/2.e108c85b.chunk.js.map": "/giveaway-cisv/static/js/2.e108c85b.chunk.js.map",
+    "static/js/3.3e48aa98.chunk.js": "/giveaway-cisv/static/js/3.3e48aa98.chunk.js",
+    "static/js/3.3e48aa98.chunk.js.map": "/giveaway-cisv/static/js/3.3e48aa98.chunk.js.map",
     "index.html": "/giveaway-cisv/index.html",
-    "static/css/main.ac81421e.chunk.css.map": "/giveaway-cisv/static/css/main.ac81421e.chunk.css.map",
-    "static/js/2.dedcbe63.chunk.js.LICENSE.txt": "/giveaway-cisv/static/js/2.dedcbe63.chunk.js.LICENSE.txt",
-    "static/media/logo.6ce24c58.svg": "/giveaway-cisv/static/media/logo.6ce24c58.svg"
+    "static/css/2.27175f2b.chunk.css.map": "/giveaway-cisv/static/css/2.27175f2b.chunk.css.map",
+    "static/css/main.6f9d8a76.chunk.css.map": "/giveaway-cisv/static/css/main.6f9d8a76.chunk.css.map",
+    "static/js/2.e108c85b.chunk.js.LICENSE.txt": "/giveaway-cisv/static/js/2.e108c85b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.3bd3e2bb.js",
-    "static/js/2.dedcbe63.chunk.js",
-    "static/css/main.ac81421e.chunk.css",
-    "static/js/main.34192839.chunk.js"
+    "static/js/runtime-main.e9266763.js",
+    "static/css/2.27175f2b.chunk.css",
+    "static/js/2.e108c85b.chunk.js",
+    "static/css/main.6f9d8a76.chunk.css",
+    "static/js/main.2b494f24.chunk.js"
   ]
 }
