@@ -23,9 +23,11 @@ const slice = createSlice({
       state.programs = action.payload
     },
     putParticipantsProgram(state, action) {
-      console.log("action", action.payload)
       state.programs[action.payload.program].participants =
         action.payload.participants
+    },
+    putWinnersProgram(state, action) {
+      state.programs[action.payload.program].winners = action.payload.winners
     },
   },
 })

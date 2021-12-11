@@ -9,7 +9,7 @@ import { Participant } from "../../../models/participants"
 import { actions } from "../../../redux/slices/general.slice"
 import * as _ from "lodash"
 import { Programs } from "../../../models/programs"
-const { putParticipantsProgram } = actions
+const { putParticipantsProgram, putWinnersProgram } = actions
 
 function getParticipantsProgram(
   participants: Participant[],
@@ -60,7 +60,7 @@ const ProgramTab = (props: any) => {
   )
 
   const [numbersParticipants, setNumbersParticipants] = useState<number[]>([])
-  const [winnersDestinies, setWinnersDestinies] = useState<any[]>([])
+  const winnersDestinies = programs[programName].winners
 
   const assignNumberToParticipants = () => {
     let clonedParticipants = _.cloneDeep(participantsProgram)
@@ -153,9 +153,13 @@ const ProgramTab = (props: any) => {
       },
       []
     )
-    console.log("participantsToDestinies", participantsToDestinies)
 
-    setWinnersDestinies(participantsToDestinies)
+    dispatch(
+      putWinnersProgram({
+        program: programName,
+        winners: participantsToDestinies,
+      })
+    )
   }
 
   const getNumberParticipant = (
