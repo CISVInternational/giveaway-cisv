@@ -9,6 +9,7 @@ import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import rootReducer from "./redux/rootReducer"
 import { PersistGate } from 'redux-persist/integration/react'
+import { HashRouter } from "react-router-dom"
 
 const persistConfig = {
   key: 'root',
@@ -24,7 +25,9 @@ ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <React.StrictMode>
-        <App />
+        <HashRouter>
+          <App />
+        </HashRouter>
       </React.StrictMode>
     </PersistGate>
   </Provider>,
