@@ -8,9 +8,9 @@ export const shuffleArray = (arr: any[]): any[] =>
 
 export function getParticipantsProgram(
   participants: Participant[],
-  destinies: Destiny[]
+  destiniesProgram: Destiny[]
 ) {
-  const ages: number[] = destinies.reduce(
+  const ages: number[] = destiniesProgram.reduce(
     (accumulator: number[], destiny: Destiny) => {
       const edades: number[] = destiny.edad.split(",").map((edad) => Number(edad))
 
@@ -19,19 +19,49 @@ export function getParticipantsProgram(
     []
   )
 
-  const participantsFiltered: Participant[] = participants.filter((participant) => {
-    const age = getAge(String(participant["fecha nacimiento"]))
-    return ages.includes(age)
+  const datesDestinies: Date[] = Array.from(
+    new Set(
+      destiniesProgram.map((destiny) => {
+        const dateDestiny = new Date(destiny["fecha"])
+        return new Date(`${dateDestiny.getFullYear()}-12-31`)
+      })
+    )
+  )
+  // solo debería salir un programa, pero bueno
+  const programs = Array.from(
+    new Set(destiniesProgram.map((destiny: Destiny) => destiny["programa"]))
+  )
+
+  let participantsFiltered: Participant[] = participants.filter((participant) => {
+    return datesDestinies.some((dateDestiny) => {
+      const age = getAge(String(participant["fecha nacimiento"]), dateDestiny)
+      return ages.includes(age)
+    })
+  })
+
+  participantsFiltered = participantsFiltered.filter((participant) => {
+    const preferences: string[] = [
+      String(participant["preferencia 1"]),
+      String(participant["preferencia 2"]),
+      String(participant["preferencia 3"]),
+      String(participant["preferencia 4"]),
+    ]
+
+    const thisProgramIsAPreference = preferences.some((preference) =>
+      programs.includes(preference)
+    )
+
+    return thisProgramIsAPreference
   })
 
   return participantsFiltered
 }
 
-export function getAge(dateString: string) {
-  var today = new Date()
-  var birthDate = new Date(dateString)
-  var age = today.getFullYear() - birthDate.getFullYear()
-  var m = today.getMonth() - birthDate.getMonth()
+export function getAge(dateString: string, targetDate: Date) {
+  const today = targetDate
+  const birthDate = new Date(dateString)
+  let age = today.getFullYear() - birthDate.getFullYear()
+  const m = today.getMonth() - birthDate.getMonth()
   if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
     age--
   }
