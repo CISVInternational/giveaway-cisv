@@ -315,9 +315,11 @@ const ProgramTab = (props: any) => {
           Comenzar sorteo
         </button>
       </div>
-      {destinies && renderDestiniesProgram()}
-      {participantsProgram && renderParticipantsProgram()}
-      {waitingList && renderWaitingList()}
+      {destinies && destinies.length && renderDestiniesProgram()}
+      {participantsProgram &&
+        participantsProgram.length &&
+        renderParticipantsProgram()}
+      {waitingList && waitingList.length && renderWaitingList()}
     </div>
   )
 }
