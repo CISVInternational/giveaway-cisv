@@ -29,6 +29,9 @@ const slice = createSlice({
     putWinnersProgram(state, action) {
       state.programs[action.payload.program].winners = action.payload.winners
     },
+    putWaitingListProgram(state, action) {
+      state.programs[action.payload.program].waitingList = action.payload.waitingList
+    },
   },
 })
 

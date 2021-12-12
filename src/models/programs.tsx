@@ -12,4 +12,5 @@ export interface Program {
   destinies: Destiny[]
   participants: Participant[]
   winners?: Winners
+  waitingList?: number[]
 }
