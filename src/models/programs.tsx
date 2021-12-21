@@ -13,4 +13,5 @@ export interface Program {
   participants: Participant[]
   winners?: Winners
   waitingList?: Participant[]
+  log: string[]
 }

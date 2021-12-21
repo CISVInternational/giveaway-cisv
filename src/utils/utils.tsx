@@ -117,6 +117,7 @@ export const initPrograms = (
           participants: [],
           rounds: [],
           waitingList: [],
+          log: [],
         }
       } else {
         accumulator[destiny.programa].destinies.push(destiny)

@@ -6,3 +6,17 @@
   padding: 20px;
   border-width: 1px;
 }
+
+.btn__generic {
+  background-color: var(--background-fourth-color);
+  border-color: var(--background-secondary-color);
+  color: var(--background-third-color);
+  border-radius: 4px;
+  padding: 20px;
+  border-width: 1px;
+}
+
+.drawer__container {
+  padding: var(--spacing-margin-2);
+  overflow-y: scroll;
+}
