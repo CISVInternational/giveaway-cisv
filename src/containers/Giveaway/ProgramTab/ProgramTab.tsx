@@ -10,7 +10,7 @@ import { actions } from "../../../redux/slices/general.slice"
 import * as _ from "lodash"
 import { Programs, Winners, Program } from "../../../models/programs"
 import { shuffleArray } from "../../../utils/utils"
-const { putWinnersProgram, putWaitingListProgram } = actions
+const { putWinnersProgram, putWaitingListProgram, putPrograms } = actions
 
 const ProgramTab = (props: any) => {
   const dispatch = useDispatch()
@@ -63,8 +63,12 @@ const ProgramTab = (props: any) => {
     return numbersRound
   }
 
-  const isWinnerInAnotherProgram = (winner: Participant, programName: string) => {
-    return Object.entries(programs).find(([name, program]) => {
+  const isWinnerInAnotherProgram = (
+    winner: Participant,
+    programName: string,
+    clonedPrograms: Programs
+  ) => {
+    return Object.entries(clonedPrograms).find(([name, program]) => {
       if (name !== programName && program.winners) {
         const winnersProgram: string[] = Object.values(program.winners).reduce(
           (accumulator: string[], participants: Participant[]): string[] => {
@@ -86,16 +90,69 @@ const ProgramTab = (props: any) => {
     })
   }
 
-  const shouldReassignWinners = (winners: Winners) => {
-    Object.entries(winners).forEach(([destinyName, winners]) => {
-      winners.forEach((winner) => {
-        const isWinner = isWinnerInAnotherProgram(winner, programName)
-        console.log("isWinner", isWinner)
+  const removeParticipantFromProgram = (
+    participant: Participant,
+    name: string,
+    clonedPrograms: Programs
+  ) => {
+    const winnersProgram = clonedPrograms[name].winners
+    const waitingList = clonedPrograms[name].waitingList
+
+    if (winnersProgram) {
+      Object.entries(winnersProgram).forEach(([destiny, winners]) => {
+        const indexWinnerRepeated = winners.findIndex(
+          (winner: Participant) =>
+            `${winner["nombre y apellidos"]}${winner["fecha de nacimiento"]}` ===
+            `${participant["nombre y apellidos"]}${participant["fecha de nacimiento"]}`
+        )
+
+        if (indexWinnerRepeated > -1) {
+          winners.splice(indexWinnerRepeated, 1)
+          if (waitingList && waitingList.length) {
+            winners.push(waitingList[0])
+            waitingList.splice(0, 1)
+          }
+        }
       })
-    })
+    }
   }
 
-  const setWinners = (): number[] => {
+  const shouldReassignWinners = (clonedPrograms: Programs) => {
+    console.log("shouldReassignWinners")
+    const program = clonedPrograms[programName]
+    if (program.winners) {
+      Object.entries(program.winners).forEach(([destinyName, winners]) => {
+        winners.forEach((winner) => {
+          const programData = isWinnerInAnotherProgram(
+            winner,
+            programName,
+            clonedPrograms
+          )
+          if (programData) {
+            const preferences = [
+              winner["preferencia 1"],
+              winner["preferencia 2"],
+              winner["preferencia 3"],
+              winner["preferencia 4"],
+            ]
+            const otherProgramName = programData[0]
+            const indexThisProgram = preferences.indexOf(programName)
+            const indexOtherProgram = preferences.indexOf(otherProgramName)
+
+            if (indexThisProgram > indexOtherProgram) {
+              removeParticipantFromProgram(winner, programName, clonedPrograms)
+            } else {
+              removeParticipantFromProgram(winner, otherProgramName, clonedPrograms)
+            }
+            //al cambiar a la gente de lugar, hay que mirar otra vez si ha vuelto a pasar que alguien ha ganado varios sorteos
+            shouldReassignWinners(clonedPrograms)
+          }
+        })
+      })
+    }
+  }
+
+  const setWinners = (): [number[], Winners] => {
     const assignedParticipants: number[] = []
 
     const { numbersGirls, numbersBoys } = getNumbersParticipants()
@@ -172,19 +229,10 @@ const ProgramTab = (props: any) => {
     )
     console.log("winners", winners)
 
-    shouldReassignWinners(winners)
-
-    dispatch(
-      putWinnersProgram({
-        program: programName,
-        winners,
-      })
-    )
-
-    return assignedParticipants
+    return [assignedParticipants, winners]
   }
 
-  const setWaitingList = (numbersWinners: number[]) => {
+  const setWaitingList = (numbersWinners: number[]): Participant[] => {
     const numbersParticipants = participantsProgram.map(
       (participant) => participant.random
     )
@@ -197,12 +245,7 @@ const ProgramTab = (props: any) => {
       waitingListNumbers.includes(p.random)
     )
 
-    dispatch(
-      putWaitingListProgram({
-        program: programName,
-        waitingList,
-      })
-    )
+    return waitingList
   }
 
   const getNumberParticipant = (
@@ -221,8 +264,13 @@ const ProgramTab = (props: any) => {
   }
 
   const startGiveaway = () => {
-    const numbersWinners = setWinners()
-    setWaitingList(numbersWinners)
+    const [numbersWinners, winners] = setWinners()
+    const waitingList = setWaitingList(numbersWinners)
+    const clonedPrograms = _.cloneDeep(programs)
+    clonedPrograms[programName].winners = winners
+    clonedPrograms[programName].waitingList = waitingList
+    shouldReassignWinners(clonedPrograms)
+    dispatch(putPrograms(clonedPrograms))
   }
 
   const renderParticipantsProgram = () => {
@@ -239,10 +287,7 @@ const ProgramTab = (props: any) => {
               <th>Nombre</th>
               <th>Fecha nacimiento</th>
               <th>Sexo</th>
-              <th>Preferencia 1</th>
-              <th>Preferencia 2</th>
-              <th>Preferencia 3</th>
-              <th>Preferencia 4</th>
+              <th>Preferencias</th>
             </tr>
           </thead>
           <tbody>
@@ -254,10 +299,16 @@ const ProgramTab = (props: any) => {
                   <td>{participant["nombre y apellidos"]}</td>
                   <td>{participant["fecha nacimiento"]}</td>
                   <td>{participant["sexo"]}</td>
-                  <td>{participant["preferencia 1"]}</td>
-                  <td>{participant["preferencia 2"]}</td>
-                  <td>{participant["preferencia 3"]}</td>
-                  <td>{participant["preferencia 4"]}</td>
+                  <td>
+                    {[
+                      participant["preferencia 1"],
+                      participant["preferencia 2"],
+                      participant["preferencia 3"],
+                      participant["preferencia 4"],
+                    ]
+                      .filter((p) => !!p)
+                      .join(",")}
+                  </td>
                 </tr>
               )
             })}
