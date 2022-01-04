@@ -6,28 +6,29 @@ import "./App.css"
 import NavBar from "./components/NavBar/NavBar"
 import Header from "./components/Header/Header"
 import { Switch, Route } from "react-router-dom"
+import "react-modern-drawer/dist/index.css"
 
 function App() {
   return (
-      <div>
-        <div className="sticky-top">
-          <Header />
-          <NavBar />
-        </div>
-        <div className="body-container">
-          <Switch>
-            <Route path="/import">
-              <DataImport />
-            </Route>
-            <Route path="/giveaway">
-              <Giveaway />
-            </Route>
-            <Route path="/export">
-              <DataExport />
-            </Route>
-          </Switch>
-        </div>
+    <div>
+      <div className="sticky-top">
+        <Header />
+        <NavBar />
       </div>
+      <div className="body-container">
+        <Switch>
+          <Route path="/import">
+            <DataImport />
+          </Route>
+          <Route path="/giveaway">
+            <Giveaway />
+          </Route>
+          <Route path="/export">
+            <DataExport />
+          </Route>
+        </Switch>
+      </div>
+    </div>
   )
 }
 

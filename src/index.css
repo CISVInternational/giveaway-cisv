@@ -14,4 +14,7 @@ code {
   --background-primary-color: #0072ce;
   --background-secondary-color: #f1f7fb;
   --background-third-color: #fff;
+  --background-fourth-color: #acc9e0;
+  --spacing-margin: 16px;
+  --spacing-margin-2: 32px;
 }

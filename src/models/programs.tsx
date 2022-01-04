@@ -5,12 +5,13 @@ export interface Programs {
   [key: string]: Program
 }
 export interface Winners {
-  [key: string]: number[]
+  [key: string]: Participant[]
 }
 export interface Program {
   rounds: (string | number)[]
   destinies: Destiny[]
   participants: Participant[]
   winners?: Winners
-  waitingList?: number[]
+  waitingList?: Participant[]
+  log: string[]
 }

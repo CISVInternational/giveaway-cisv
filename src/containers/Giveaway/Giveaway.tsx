@@ -40,7 +40,7 @@ const Giveaway = () => {
         {programs &&
           Object.entries(programs).map(([index, program]) => {
             return (
-              <TabPanel key={index}>
+              <TabPanel className="tabpanel__container" key={index}>
                 <ProgramTab destinies={program.destinies} programName={index} />
               </TabPanel>
             )
