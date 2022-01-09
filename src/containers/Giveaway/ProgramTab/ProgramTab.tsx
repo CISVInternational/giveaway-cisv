@@ -3,7 +3,6 @@ import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import "react-tabs/style/react-tabs.css"
 import { Destiny } from "../../../models/destinies"
-import { getParticipants } from "../../../redux/selectors/general.selector"
 import { getPrograms } from "../../../redux/selectors/general.selector"
 import { Participant } from "../../../models/participants"
 import { actions } from "../../../redux/slices/general.slice"
@@ -26,8 +25,6 @@ const ProgramTab = (props: any) => {
   const log: string[] = programs[programName].log || []
 
   const [isOpen, setIsOpen] = useState(false)
-  const initialLog: string[] = []
-  // const [log, setLog] = useState(initialLog)
 
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState)
@@ -238,6 +235,7 @@ const ProgramTab = (props: any) => {
           if (!accumulator[destiny["lugar de destino"]]) {
             accumulator[destiny["lugar de destino"]] = []
           }
+
           if (
             accumulator[destiny["lugar de destino"]].length <
             Number(destiny["participantes (m)"]) +
@@ -246,7 +244,20 @@ const ProgramTab = (props: any) => {
             const shuffledBoys = shuffleArray(numbersBoysRound)
             const shuffledGirls = shuffleArray(numbersGirlsRound)
 
-            const destinyBoys = [...new Array(Number(destiny["participantes (m)"]))]
+            // miramos las plazas que quedan abiertas para esta ronda,
+            // porque puede que en una ronda anterior ya se hayan ganado plazas para este destino
+            const openStallsBoys =
+              Number(destiny["participantes (m)"]) -
+              accumulator[destiny["lugar de destino"]].filter(
+                (p: Participant) => p["sexo"] === "m"
+              ).length
+            const openStallsGirls =
+              Number(destiny["participantes (f)"]) -
+              accumulator[destiny["lugar de destino"]].filter(
+                (p: Participant) => p["sexo"] === "f"
+              ).length
+
+            const destinyBoys = [...new Array(openStallsBoys)]
               .map((position: any, index: number) => {
                 if (assignedParticipants.length < participantsProgram.length) {
                   const numberParticipant: number | undefined = getNumberParticipant(
@@ -267,7 +278,7 @@ const ProgramTab = (props: any) => {
               destinyBoys.includes(p.random)
             )
 
-            const destinyGirls = [...new Array(Number(destiny["participantes (f)"]))]
+            const destinyGirls = [...new Array(openStallsGirls)]
               .map((position: any, index: number) => {
                 if (assignedParticipants.length < participantsProgram.length) {
                   const numberParticipant: number | undefined = getNumberParticipant(
@@ -311,8 +322,6 @@ const ProgramTab = (props: any) => {
     )
     console.log("winners", winners)
 
-    // setLog(logWinners)
-
     return [assignedParticipants, winners, logWinners]
   }
 
@@ -325,9 +334,24 @@ const ProgramTab = (props: any) => {
       (number) => !numbersWinners.includes(number)
     )
 
-    const waitingList: Participant[] = participantsProgram
-      .filter((p) => waitingListNumbers.includes(p.random))
-      .sort((p1, p2) => p1.random - p2.random)
+    const participantsWaiting = participantsProgram.filter((p) =>
+      waitingListNumbers.includes(p.random)
+    )
+
+    const participantsWaitingByRound = _.groupBy(participantsWaiting, "ronda")
+
+    const waitingList: Participant[] = Object.values(
+      participantsWaitingByRound
+    ).reduce(
+      (accumulator: Participant[], participants: Participant[]): Participant[] => {
+        participants = participants.sort((p1, p2) => p1.random - p2.random)
+
+        accumulator = [...accumulator, ...participants]
+
+        return accumulator
+      },
+      []
+    )
 
     return waitingList
   }
@@ -497,14 +521,22 @@ const ProgramTab = (props: any) => {
       <Drawer
         open={isOpen}
         onClose={toggleDrawer}
+        size={500}
         direction="right"
         className="drawer__container"
       >
+        <h5>LOG DE ACCIONES</h5>
+        <hr className="margin-bottom"></hr>
         {log.length
           ? log.map((string, index) => {
               return (
-                <div key={index} className="entrylog margin-bottom">
-                  {string}
+                <div
+                  key={index}
+                  className={`entrylog margin-bottom ${
+                    log.length - 1 === index ? `last` : ``
+                  }`}
+                >
+                  {string.includes("-->") ? <b>{string}</b> : <i>{string}</i>}
                 </div>
               )
             })
