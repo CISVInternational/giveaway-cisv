@@ -388,7 +388,7 @@ const ProgramTab = (props: any) => {
         <table>
           <thead>
             <tr>
-              <th colSpan={3}>Participantes</th>
+              <th colSpan={6}>Participantes</th>
             </tr>
             <tr>
               <th>Número</th>
@@ -433,7 +433,7 @@ const ProgramTab = (props: any) => {
         <table>
           <thead>
             <tr>
-              <th colSpan={3}>Lista de espera</th>
+              <th colSpan={5}>Lista de espera</th>
             </tr>
             <tr>
               <th>Número</th>
@@ -464,11 +464,11 @@ const ProgramTab = (props: any) => {
 
   const renderDestiniesProgram = () => {
     return (
-      <div className="row__cell--6">
+      <div className="row__cell--6 padding-right destinies-table">
         <table>
           <thead>
             <tr>
-              <th colSpan={3}>Destinos</th>
+              <th colSpan={5}>Destinos</th>
             </tr>
             <tr>
               <th>Número</th>
@@ -482,12 +482,12 @@ const ProgramTab = (props: any) => {
             {destinies &&
               destinies.map((destiny: Destiny, index: number) => {
                 return (
-                  <tr key={index}>
+                  <tr className="destiny-row" key={index}>
                     <td>{index + 1}</td>
                     <td>{destiny["lugar de destino"]}</td>
                     <td>{destiny["participantes (m)"]}</td>
                     <td>{destiny["participantes (f)"]}</td>
-                    <td>
+                    <td className="winners-cell">
                       <ul>
                         {winnersDestinies &&
                           winnersDestinies[destiny["lugar de destino"]] &&
@@ -555,7 +555,7 @@ const ProgramTab = (props: any) => {
               Comenzar sorteo
             </button>
           </div>
-          <div className="row__cell--3">
+          <div className="row__cell--3 pull-right">
             <button className="btn__generic" onClick={toggleDrawer}>
               Ver log
             </button>
@@ -566,7 +566,7 @@ const ProgramTab = (props: any) => {
       {participantsProgram &&
         participantsProgram.length &&
         renderParticipantsProgram()}
-      {waitingList && waitingList.length && renderWaitingList()}
+      {waitingList && waitingList.length ? renderWaitingList() : ""}
       {renderLog()}
     </div>
   )
