@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/giveaway-cisv/static/css/main.dede8711.chunk.css",
-    "main.js": "/giveaway-cisv/static/js/main.1b2958fc.chunk.js",
-    "main.js.map": "/giveaway-cisv/static/js/main.1b2958fc.chunk.js.map",
+    "main.css": "/giveaway-cisv/static/css/main.760c75f5.chunk.css",
+    "main.js": "/giveaway-cisv/static/js/main.de618529.chunk.js",
+    "main.js.map": "/giveaway-cisv/static/js/main.de618529.chunk.js.map",
     "runtime-main.js": "/giveaway-cisv/static/js/runtime-main.4ec010d3.js",
     "runtime-main.js.map": "/giveaway-cisv/static/js/runtime-main.4ec010d3.js.map",
     "static/css/2.664ee2c2.chunk.css": "/giveaway-cisv/static/css/2.664ee2c2.chunk.css",
@@ -12,14 +12,14 @@
     "static/js/3.e33eb351.chunk.js.map": "/giveaway-cisv/static/js/3.e33eb351.chunk.js.map",
     "index.html": "/giveaway-cisv/index.html",
     "static/css/2.664ee2c2.chunk.css.map": "/giveaway-cisv/static/css/2.664ee2c2.chunk.css.map",
-    "static/css/main.dede8711.chunk.css.map": "/giveaway-cisv/static/css/main.dede8711.chunk.css.map",
+    "static/css/main.760c75f5.chunk.css.map": "/giveaway-cisv/static/css/main.760c75f5.chunk.css.map",
     "static/js/2.92e82ac4.chunk.js.LICENSE.txt": "/giveaway-cisv/static/js/2.92e82ac4.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.4ec010d3.js",
     "static/css/2.664ee2c2.chunk.css",
     "static/js/2.92e82ac4.chunk.js",
-    "static/css/main.dede8711.chunk.css",
-    "static/js/main.1b2958fc.chunk.js"
+    "static/css/main.760c75f5.chunk.css",
+    "static/js/main.de618529.chunk.js"
   ]
 }
