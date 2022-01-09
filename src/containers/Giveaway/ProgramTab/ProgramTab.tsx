@@ -83,14 +83,14 @@ const ProgramTab = (props: any) => {
         const winnersProgram: string[] = Object.values(program.winners).reduce(
           (accumulator: string[], participants: Participant[]): string[] => {
             const stringsParticipants: string[] = participants.map(
-              (p) => `${p["nombre y apellidos"]}${p["fecha de nacimiento"]}`
+              (p) => `${p["nombre y apellidos"]}${p["fecha nacimiento"]}`
             )
             return [...accumulator, ...stringsParticipants]
           },
           []
         )
         const isHere = winnersProgram.includes(
-          `${winner["nombre y apellidos"]}${winner["fecha de nacimiento"]}`
+          `${winner["nombre y apellidos"]}${winner["fecha nacimiento"]}`
         )
 
         return isHere
@@ -113,8 +113,8 @@ const ProgramTab = (props: any) => {
       Object.entries(winnersProgram).forEach(([destiny, winners]) => {
         const indexWinnerRepeated = winners.findIndex(
           (winner: Participant) =>
-            `${winner["nombre y apellidos"]}${winner["fecha de nacimiento"]}` ===
-            `${participant["nombre y apellidos"]}${participant["fecha de nacimiento"]}`
+            `${winner["nombre y apellidos"]}${winner["fecha nacimiento"]}` ===
+            `${participant["nombre y apellidos"]}${participant["fecha nacimiento"]}`
         )
 
         if (indexWinnerRepeated > -1) {
@@ -123,17 +123,31 @@ const ProgramTab = (props: any) => {
             `ganadores originales de ${destiny} en el programa ${name}: ${winners.map(
               (winner) => winner["nombre y apellidos"]
             )}`,
-            `eliminando a ${participant["nombre y apellidos"]} de ${name}`,
+            `eliminando a ${participant["nombre y apellidos"]} (${participant["sexo"]}) de ${name}`,
           ]
-
+          //quitamos a la persona que está repetida como ganador en los dos programas
           winners.splice(indexWinnerRepeated, 1)
           if (waitingList && waitingList.length) {
-            logRemove = [
-              ...logRemove,
-              `poniendo a ${waitingList[0]["nombre y apellidos"]} en su lugar`,
-            ]
-            winners.unshift(waitingList[0])
-            waitingList.splice(0, 1)
+            //y añadimos la primera de la lista de espera de su mismo sexo
+            const indexWaitingList = waitingList.findIndex(
+              (waitingParticipant: Participant) => {
+                return participant["sexo"] === waitingParticipant["sexo"]
+              }
+            )
+            if (indexWaitingList !== -1) {
+              logRemove = [
+                ...logRemove,
+                `poniendo a ${waitingList[indexWaitingList]["nombre y apellidos"]} (${waitingList[indexWaitingList]["sexo"]}) en su lugar`,
+              ]
+
+              winners.unshift(waitingList[indexWaitingList])
+              waitingList.splice(indexWaitingList, 1)
+            } else {
+              logRemove = [
+                ...logRemove,
+                `no se encontró a nadie del mismo sexo  (${participant["sexo"]}) en la lista de espera de ${name}, asi que no se asignó a nadie`,
+              ]
+            }
           }
         }
       })
@@ -148,6 +162,8 @@ const ProgramTab = (props: any) => {
       ...logFn,
       `--> mirando si se repiten ganadores entre programas`,
     ]
+    let thereAreRepeatedWinners = false
+
     if (program.winners) {
       Object.entries(program.winners).forEach(([destinyName, winners]) => {
         winners.forEach((winner) => {
@@ -157,6 +173,7 @@ const ProgramTab = (props: any) => {
             clonedPrograms
           )
           if (programData) {
+            thereAreRepeatedWinners = true
             const preferences = [
               winner["preferencia 1"],
               winner["preferencia 2"],
@@ -166,7 +183,7 @@ const ProgramTab = (props: any) => {
             const otherProgramName = programData[0]
             logReassign = [
               ...logReassign,
-              `el participante ${winner["nombre y apellidos"]} ya ganó en ${otherProgramName}`,
+              `el participante ${winner["nombre y apellidos"]} (${winner["sexo"]}) ya ganó en ${otherProgramName}`,
               `la preferencias de ${winner["nombre y apellidos"]} son ${preferences
                 .filter((p) => !!p)
                 .join(",")}`,
@@ -197,6 +214,11 @@ const ProgramTab = (props: any) => {
         })
       })
     }
+
+    if (!thereAreRepeatedWinners) {
+      logReassign = [...logReassign, `no se repite ningún ganador entre programas`]
+    }
+
     return logReassign
   }
 
@@ -453,7 +475,7 @@ const ProgramTab = (props: any) => {
                               return (
                                 <li key={index + indexDestiny}>
                                   {winnerParticipant
-                                    ? `${winnerParticipant.random} - ${winnerParticipant["nombre y apellidos"]}`
+                                    ? `${winnerParticipant.random} - ${winnerParticipant["nombre y apellidos"]} (${winnerParticipant["sexo"]})`
                                     : ""}
                                 </li>
                               )
