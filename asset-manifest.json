@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/giveaway-cisv/static/css/main.760c75f5.chunk.css",
-    "main.js": "/giveaway-cisv/static/js/main.f0b5ec77.chunk.js",
-    "main.js.map": "/giveaway-cisv/static/js/main.f0b5ec77.chunk.js.map",
+    "main.js": "/giveaway-cisv/static/js/main.340e6aee.chunk.js",
+    "main.js.map": "/giveaway-cisv/static/js/main.340e6aee.chunk.js.map",
     "runtime-main.js": "/giveaway-cisv/static/js/runtime-main.4ec010d3.js",
     "runtime-main.js.map": "/giveaway-cisv/static/js/runtime-main.4ec010d3.js.map",
     "static/css/2.664ee2c2.chunk.css": "/giveaway-cisv/static/css/2.664ee2c2.chunk.css",
@@ -20,6 +20,6 @@
     "static/css/2.664ee2c2.chunk.css",
     "static/js/2.92e82ac4.chunk.js",
     "static/css/main.760c75f5.chunk.css",
-    "static/js/main.f0b5ec77.chunk.js"
+    "static/js/main.340e6aee.chunk.js"
   ]
 }
