@@ -28,14 +28,27 @@ const Destinies = () => {
   }
 
   const clearDestinies = () => {
-    dispatch(putDestinies([]))
+    if (
+      window.confirm(
+        "¿Estás seguro? Esto reseteará toda la información de los sorteos"
+      )
+    ) {
+      dispatch(putDestinies([]))
+      dispatch(putPrograms([]))
+    }
   }
 
   return (
-    <div>
-      <CSVReader label="Importar destinos" onFileLoaded={loadDestinies} />
-      <button onClick={clearDestinies}>Borrar destinos</button>
-      {destinies.length ? printTable(destinies) : ""}
+    <div className="row">
+      <div className="row__cell--11 margin-bottom">
+        <CSVReader label="Importar destinos" onFileLoaded={loadDestinies} />
+      </div>
+      <div className="row__cell--1 margin-bottom">
+        <button onClick={clearDestinies}>Borrar destinos</button>
+      </div>
+      <div className="row__cell--12">
+        {destinies.length ? printTable(destinies) : ""}
+      </div>
     </div>
   )
 }

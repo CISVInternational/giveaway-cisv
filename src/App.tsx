@@ -5,7 +5,7 @@ import Giveaway from "./containers/Giveaway/Giveaway"
 import "./App.css"
 import NavBar from "./components/NavBar/NavBar"
 import Header from "./components/Header/Header"
-import { Switch, Route } from "react-router-dom"
+import { Switch, Route, Redirect } from "react-router-dom"
 import "react-modern-drawer/dist/index.css"
 
 function App() {
@@ -17,6 +17,7 @@ function App() {
       </div>
       <div className="body-container">
         <Switch>
+          <Route exact path="/" render={() => <Redirect to="/import" />} />
           <Route path="/import">
             <DataImport />
           </Route>

@@ -20,3 +20,27 @@
   padding: var(--spacing-margin-2);
   overflow-y: scroll;
 }
+
+.giveaway table {
+  border: 0;
+  border-collapse: separate;
+  border-spacing: 0 5px;
+  width: 100%;
+  text-align: center;
+}
+.giveaway thead {
+  background-color: var(--background-fifth-color);
+}
+
+.giveaway th {
+  border-bottom: 1px solid var(--background-fourth-color);
+}
+.giveaway .destinies-table .winners-cell li {
+  padding: 5px 0px;
+  text-align: left;
+
+  list-style-type: none;
+}
+.giveaway .destinies-table .destiny-row td {
+  border-bottom: 1px solid var(--background-fourth-color);
+}

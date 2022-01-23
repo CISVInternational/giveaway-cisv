@@ -1,3 +1,10 @@
 .react-tabs__tab-panel--selected {
   padding: var(--spacing-margin-2);
 }
+.react-tabs__tab {
+  padding: 12px 30px;
+}
+
+.react-tabs__tab--selected {
+  font-weight: bold;
+}
