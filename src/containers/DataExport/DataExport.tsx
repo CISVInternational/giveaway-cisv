@@ -25,12 +25,18 @@ const DataExport = () => {
     for (let programKey in programs) {
       const program = programs[programKey];
       for (let winnerKey in program.winners) {
-        const winners = program.winners[winnerKey].map((random: number) => {
-          return program.participants.find((participant: any) => participant.random === random)['nombre y apellidos'];
+        const winners = program.winners[winnerKey].map((winner: any) => {
+          return program.participants.find((participant: any) => participant.random === winner.random)['nombre y apellidos'];
         });
         const line = [programKey, winnerKey, ...winners];
         ws_data.push(line);
       }
+      const waitingLines = program.waitingList.reduce((acc: any, curr: any) => {
+        const name = curr['nombre y apellidos'];
+        curr.sexo === 'f' ? acc[0].push(name) : acc[1].push(name);
+        return acc;
+      }, [[programKey, 'WAITING LIST F'], [programKey, 'WAITING LIST M']]);
+      ws_data.push(...waitingLines);
     }
 
     var ws = XLSX.utils.aoa_to_sheet(ws_data);
@@ -41,7 +47,7 @@ const DataExport = () => {
 
   function generateHeader(): any[] {
     let header = ['Programa', 'Destino'];
-  
+
     const maxParticipants = Object.keys(programs).reduce((acc, key) => {
       const program = programs[key];
       Object.values(program.winners).forEach((value: any) => {
@@ -49,7 +55,7 @@ const DataExport = () => {
       })
       return acc;
     }, 0);
-  
+
     for (var i = 0; i < maxParticipants; i++) {
       header.push(`Participante ${i + 1}`);
     }
